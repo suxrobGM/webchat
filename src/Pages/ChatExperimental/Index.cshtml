@@ -1,0 +1,50 @@
+﻿@page
+@model WebChat.Pages.ChatExperimental.IndexModel
+@{
+    ViewData["Title"] = "Chat";
+}
+
+<h1>Chat</h1>
+
+<div class="container-fluid" style="height: 50rem">
+    <div class="row h-100">
+        <div class="col-12 col-md-8 col-lg-7">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header">
+                    <p id="groupName"><strong>Chat Messages</strong></p>
+                    <strong id="onlineUsersCount">Online users: </strong>                                       
+                    <span hidden id="userName">@User.Identity.Name</span>
+                </div>
+                <div id="messagesList" class="card-body" style="overflow-y: scroll">
+                    @*<div class="row float-left w-100 mt-2">
+                        <div>
+                            <img src="~/img/default_user_photo.jpg" class="rounded-circle" alt="Alternate Text" style="width: 30px; height: 30px" />
+                        </div>                                           
+                        <div class="rounded mx-2 p-1" style="background-color: rgba(206, 212, 218, 0.75)">
+                            Message template 1 (left)
+                        </div>
+                    </div>
+                    <div class="row float-right w-100 mt-2">
+                        <div class="rounded ml-auto p-1" style="background-color: rgba(206, 212, 218, 0.75)">
+                            Message template 2 (right)
+                        </div>
+                        <div class="ml-2">
+                            <img src="~/img/default_user_photo.jpg" class="rounded-circle" alt="Alternate Text" style="width: 30px; height: 30px" />
+                        </div>                                       
+                    </div>
+                   *@
+                </div>
+                <div class="card-footer clearfix">
+                    <div class="row">
+                        <div class="messageNoMargin col-8 col-sm-9 col-md-9 col-lg-10">
+                            <textarea id="messageInput"></textarea>
+                        </div>
+                        <div class="col-4 col-sm-3 col-md-3 col-lg-2">
+                            <a id="sendMessage" class="btn-lg btn-info rounded-circle float-right align-content-center"><i class="fas fa-paper-plane"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
