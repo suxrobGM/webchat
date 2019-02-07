@@ -7,8 +7,8 @@
 <h1>Chat</h1>
 
 <div class="container-fluid" style="height: 50rem">
-    <div class="row h-100">
-        <div class="col-12 col-md-8 col-lg-7">
+    <div class="row h-100 mr-0">
+        <div class="col-11 col-md-8 col-lg-7">
             <div class="card h-100 shadow-sm">
                 <div class="card-header">
                     <p id="groupName"><strong>Chat Messages</strong></p>
@@ -45,6 +45,32 @@
                     </div>
                 </div>
             </div>
+        </div>        
+        <div class="row col-1 col-md-4 col-lg-5 w3-sidebar">
+            <div class="col-1">
+                <button class="btn mx-0" 
+                        data-toggle="collapse" 
+                        data-target="#onlineUsersListSidebar" 
+                        aria-hidden="true" 
+                        aria-expanded="false" 
+                        aria-controls="sidebar"
+                        onclick="document.getElementById(this.getAttribute('data-target')).style.display = 'block';">
+                    <<
+                </button>
+            </div>
+            <div id="onlineUsersListSidebar" class="col-10 collapse">
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        <b>Online users</b>
+                    </div>
+                    <div id="onlineUsersList" class="card-body" style="overflow-y: scroll">
+                        <div class="row">
+                            <img src="~/img/default_user_photo.jpg" class="rounded-circle" style="width: 30px; height: 30px" alt="Alternate Text" />
+                            <b class="ml-1">@User.Identity.Name</b>
+                        </div>
+                    </div>
+                </div>
+            </div>       
         </div>
     </div>
 </div>

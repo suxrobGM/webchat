@@ -10,7 +10,7 @@
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
                 @{
                     var user = db.Users.Where(i => i.UserName == User.Identity.Name).FirstOrDefault();
-                    <img src="@user.ProfilePhoto.GetDataBase64()" class="rounded-circle" style="width: 30px; height: 30px" alt="Profile Photo" />
+                    <img id="avatarPhoto" src="@user.ProfilePhoto.GetDataBase64()" class="rounded-circle" style="width: 30px; height: 30px" alt="Profile Photo" />
                 }
                 @User.Identity.Name
             </a>

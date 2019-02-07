@@ -21,20 +21,21 @@ $("#sendMessage").click(event => {
     event.preventDefault();
 });
 
-connection.on("ReceiveMessage", (user, message) => {
+connection.on("ReceiveMessage", (user, avatarPhoto, message) => {
     let userNodes = $.parseHTML("<strong>" + user + "</strong>");
     let messageNodes = $.parseHTML(message);
     let currentUser = $("#userName").text();
+    let avatarPhotoText = avatarPhoto;
     let msgItem;
 
     if (currentUser == user) {
         // left item       
 
-        msgItem = createMessageElement(userNodes[0], messageNodes);
+        msgItem = createMessageElement(userNodes[0], avatarPhotoText, messageNodes);
     }
     else {
         // right item
-        msgItem = createMessageElement(userNodes[0], messageNodes, false);
+        msgItem = createMessageElement(userNodes[0], avatarPhotoText, messageNodes, false);
     }
     
 
@@ -53,11 +54,11 @@ connection.start().catch(err => {
     return console.error(err.toString());
 });
 
-function createMessageElement(userNode, messageNodes, isLeft = true) {
+function createMessageElement(userNode, avatarPhotoText , messageNodes, isLeft = true) {
     let msgItem = document.createElement('div');   
 
     let imgElement = document.createElement('img');
-    imgElement.setAttribute('src', '/img/default_user_photo.jpg');
+    imgElement.setAttribute('src', avatarPhotoText);
     imgElement.setAttribute('class', 'rounded-circle');
     imgElement.setAttribute('alt', 'avatar');
     imgElement.setAttribute('style', 'width: 30px; height: 30px');

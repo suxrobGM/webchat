@@ -174,11 +174,6 @@
     },
     {
       "provider": "cdnjs",
-      "library": "admin-lte@2.4.8",
-      "destination": "wwwroot/lib/admin-lte/"
-    },
-    {
-      "provider": "cdnjs",
       "library": "summernote@0.8.11",
       "destination": "wwwroot/lib/summernote/"
     }

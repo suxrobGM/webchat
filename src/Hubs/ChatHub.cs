@@ -9,6 +9,13 @@ namespace WebChat.Hubs
 {
     public class ChatHub : Hub
     {
+        private readonly ApplicationDbContext _db;
+
+        public ChatHub(ApplicationDbContext db)
+        {
+            _db = db;
+        }
+
         public override Task OnConnectedAsync()
         {
             var model = SingletonModel.GetInstance();
@@ -34,8 +41,10 @@ namespace WebChat.Hubs
         }
 
         public async Task SendMessage(string user, string message)
-        {            
-            await Clients.All.SendAsync("ReceiveMessage", user, message);           
+        {
+            var avatarPhoto = _db.Users.Where(i => i.UserName == user).FirstOrDefault().ProfilePhoto.GetDataBase64();
+
+            await Clients.All.SendAsync("ReceiveMessage", user, avatarPhoto, message);           
         }
     }
 }
