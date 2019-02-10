@@ -1,6 +1,4 @@
-﻿"use strict";
-
-var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+﻿var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 var isConnectedToChatRoom = false;
 
 $("#chatRoom").click(() => {
@@ -11,43 +9,48 @@ $("#sendMessage").click(event => {
     //if (!isConnectedToChatRoom) {
     //    return;
     //}
-
-    let user = $("#userName").text();
+    
     let message = document.getElementById("messageInput").value;
 
-    connection.invoke("SendMessage", user, message).catch(err => {
+    connection.invoke("SendMessage", message).catch(err => {
         return console.error(err.toString());
     });
     event.preventDefault();
 });
 
-connection.on("ReceiveMessage", (user, avatarPhoto, message) => {
-    let userNodes = $.parseHTML("<strong>" + user + "</strong>");
+
+connection.on("ReceiveMessage", (username, avatarPhoto, message) => {
+    let userNodes = $.parseHTML("<strong>" + username + "</strong>");
     let messageNodes = $.parseHTML(message);
     let currentUser = $("#userName").text();
-    let avatarPhotoText = avatarPhoto;
     let msgItem;
 
-    if (currentUser == user) {
+    if (currentUser == username) {
         // left item       
-
-        msgItem = createMessageElement(userNodes[0], avatarPhotoText, messageNodes);
+        msgItem = createMessageElement(userNodes[0], avatarPhoto, messageNodes);
     }
     else {
         // right item
-        msgItem = createMessageElement(userNodes[0], avatarPhotoText, messageNodes, false);
-    }
-    
+        msgItem = createMessageElement(userNodes[0], avatarPhoto, messageNodes, false);
+    }   
 
     let messagesList = document.getElementById("messagesList");
     messagesList.appendChild(msgItem);
     messagesList.scrollTo(0, messagesList.scrollHeight);
 });
 
-connection.on("UpdateOnlineUsersCount", count => {
-    //let currentUser = $("#userName").text();
+connection.on("AddToOnlineList", (username, avatar, onlineUsersCount) => {    
 
-    document.getElementById("onlineUsersCount").innerHTML = "Online users: " + count;
+    document.getElementById("onlineUsersCount").innerHTML = "Online users: " + onlineUsersCount;
+    let onlineUserItem = createOnlineUserItem(username, avatar);
+    document.getElementById("onlineUsersList").appendChild(onlineUserItem);
+});
+
+connection.on("DeleteFromOnlineList", (username, onlineUsersCount) => {
+
+    document.getElementById("onlineUsersCount").innerHTML = "Online users: " + onlineUsersCount;
+    let onlineUserItem = document.getElementById(username);
+    document.getElementById("onlineUsersList").removeChild(onlineUserItem);
 });
 
 connection.start().catch(err => {
@@ -90,6 +93,27 @@ function createMessageElement(userNode, avatarPhotoText , messageNodes, isLeft =
     }
 
     return msgItem;
+}
+
+function createOnlineUserItem(username, avatar) {
+    let mainDiv = document.createElement('div');
+    mainDiv.setAttribute('id', username)
+    mainDiv.setAttribute('class', 'row');
+
+    let img = document.createElement('img');
+    img.setAttribute('src', avatar);
+    img.setAttribute('class', 'rounded-circle');
+    img.setAttribute('style', 'width: 30px; height: 30px');
+    img.setAttribute('alt', 'avatar');
+
+    let usernameNode = document.createElement('b');
+    usernameNode.setAttribute('class', 'ml-1');
+    usernameNode.innerText = username;
+
+    mainDiv.appendChild(img);
+    mainDiv.appendChild(usernameNode);
+
+    return mainDiv;
 }
 
 $("#messageInput").summernote({

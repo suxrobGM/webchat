@@ -7,6 +7,13 @@
     <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="wwwroot\lib\admin-lte\**" />
+    <Content Remove="wwwroot\lib\admin-lte\**" />
+    <EmbeddedResource Remove="wwwroot\lib\admin-lte\**" />
+    <None Remove="wwwroot\lib\admin-lte\**" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="7.10.2" />

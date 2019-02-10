@@ -16,7 +16,7 @@ namespace WebChat.Pages.ChatExperimental
 
         public void OnGet()
         {
-            OnlineUsersCount = SingletonModel.GetInstance().OnlineUsersCount;
+            OnlineUsersCount = SingletonModel.Instance.OnlineUsers.Count;
         }
     }
 }

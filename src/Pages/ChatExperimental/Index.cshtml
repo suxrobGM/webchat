@@ -46,8 +46,8 @@
                 </div>
             </div>
         </div>        
-        <div class="row col-1 col-md-4 col-lg-5 w3-sidebar">
-            <div class="col-1">
+        <div class="row col-1 col-md-4 col-lg-5">
+            <div>
                 <button class="btn mx-0" 
                         data-toggle="collapse" 
                         data-target="#onlineUsersListSidebar" 
@@ -58,16 +58,18 @@
                     <<
                 </button>
             </div>
-            <div id="onlineUsersListSidebar" class="col-10 collapse">
+            <div id="onlineUsersListSidebar" class="collapse">
                 <div class="card shadow-sm">
                     <div class="card-header">
                         <b>Online users</b>
                     </div>
                     <div id="onlineUsersList" class="card-body" style="overflow-y: scroll">
+                        @*
                         <div class="row">
                             <img src="~/img/default_user_photo.jpg" class="rounded-circle" style="width: 30px; height: 30px" alt="Alternate Text" />
                             <b class="ml-1">@User.Identity.Name</b>
                         </div>
+                       *@
                     </div>
                 </div>
             </div>       

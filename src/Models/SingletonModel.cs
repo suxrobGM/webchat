@@ -9,21 +9,21 @@ namespace WebChat.Models
     {
         private static SingletonModel _instance;
 
-        public int OnlineUsersCount { get; set; }
+        public static SingletonModel Instance
+        {
+            get
+            {
+                if (_instance == null)               
+                    _instance = new SingletonModel();               
+
+                return _instance;
+            }
+        }
+        public HashSet<User> OnlineUsers { get; set; }
 
         private SingletonModel()
         {
-
-        }
-
-        public static SingletonModel GetInstance()
-        {
-            if (_instance == null)
-            {
-                _instance = new SingletonModel();
-            }
-
-            return _instance;
-        }
+            OnlineUsers = new HashSet<User>(new UserComparer());
+        }       
     }
 }
