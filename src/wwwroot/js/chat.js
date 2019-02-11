@@ -1,6 +1,10 @@
 ﻿var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 var isConnectedToChatRoom = false;
 
+connection.start().catch(err => {
+    return console.error(err.toString());
+});
+
 $("#chatRoom").click(() => {
     isConnectedToChatRoom = true;
 })
@@ -17,7 +21,6 @@ $("#sendMessage").click(event => {
     });
     event.preventDefault();
 });
-
 
 connection.on("ReceiveMessage", (username, avatarPhoto, message) => {
     let userNodes = $.parseHTML("<strong>" + username + "</strong>");
@@ -39,22 +42,11 @@ connection.on("ReceiveMessage", (username, avatarPhoto, message) => {
     messagesList.scrollTo(0, messagesList.scrollHeight);
 });
 
-connection.on("AddToOnlineList", (username, avatar, onlineUsersCount) => {    
-
-    document.getElementById("onlineUsersCount").innerHTML = "Online users: " + onlineUsersCount;
-    let onlineUserItem = createOnlineUserItem(username, avatar);
-    document.getElementById("onlineUsersList").appendChild(onlineUserItem);
-});
-
-connection.on("DeleteFromOnlineList", (username, onlineUsersCount) => {
-
-    document.getElementById("onlineUsersCount").innerHTML = "Online users: " + onlineUsersCount;
-    let onlineUserItem = document.getElementById(username);
-    document.getElementById("onlineUsersList").removeChild(onlineUserItem);
-});
-
-connection.start().catch(err => {
-    return console.error(err.toString());
+connection.on("UpdateOnlineList", onlineUsersJson => {    
+    let onlineUsers = JSON.parse(onlineUsersJson);
+    document.getElementById("onlineUsersCount").innerHTML = "Online users: " + onlineUsers.length;
+    let onlineUserItems = createOnlineUserItems(onlineUsers);
+    $("#onlineUsersList").html(onlineUserItems);
 });
 
 function createMessageElement(userNode, avatarPhotoText , messageNodes, isLeft = true) {
@@ -79,14 +71,14 @@ function createMessageElement(userNode, avatarPhotoText , messageNodes, isLeft =
 
     if (isLeft) {
         imgDiv.setAttribute('class', '');
-        msgDiv.setAttribute('class', 'messageNoMargin rounded mx-2 p-1');
+        msgDiv.setAttribute('class', 'message-no-margin rounded mx-2 p-1');
         msgItem.setAttribute('class', 'row float-left w-100 mt-2');
         msgItem.appendChild(imgDiv);
         msgItem.appendChild(msgDiv);
     }
     else {
         imgDiv.setAttribute('class', 'ml-2');
-        msgDiv.setAttribute('class', 'messageNoMargin rounded ml-auto p-1');
+        msgDiv.setAttribute('class', 'message-no-margin rounded ml-auto p-1');
         msgItem.setAttribute('class', 'row float-right w-100 mt-2');
         msgItem.appendChild(msgDiv);
         msgItem.appendChild(imgDiv);        
@@ -95,25 +87,30 @@ function createMessageElement(userNode, avatarPhotoText , messageNodes, isLeft =
     return msgItem;
 }
 
-function createOnlineUserItem(username, avatar) {
-    let mainDiv = document.createElement('div');
-    mainDiv.setAttribute('id', username)
-    mainDiv.setAttribute('class', 'row');
+function createOnlineUserItems(onlineUsers) {
+    let rootDiv = document.createElement('div');
 
-    let img = document.createElement('img');
-    img.setAttribute('src', avatar);
-    img.setAttribute('class', 'rounded-circle');
-    img.setAttribute('style', 'width: 30px; height: 30px');
-    img.setAttribute('alt', 'avatar');
+    for (var i = 0; i < onlineUsers.length; i++) {
+        let layoutDiv = document.createElement('div');
+        layoutDiv.setAttribute('class', 'mt-2');
+        layoutDiv.setAttribute('id', onlineUsers[i].UserName);
 
-    let usernameNode = document.createElement('b');
-    usernameNode.setAttribute('class', 'ml-1');
-    usernameNode.innerText = username;
+        let img = document.createElement('img');
+        img.setAttribute('src', onlineUsers[i].Avatar);
+        img.setAttribute('class', 'rounded-circle');
+        img.setAttribute('style', 'width: 30px; height: 30px');
+        img.setAttribute('alt', 'avatar');
 
-    mainDiv.appendChild(img);
-    mainDiv.appendChild(usernameNode);
+        let usernameNode = document.createElement('b');
+        usernameNode.setAttribute('class', 'ml-1');
+        usernameNode.innerText = onlineUsers[i].UserName;
 
-    return mainDiv;
+        layoutDiv.appendChild(img);
+        layoutDiv.appendChild(usernameNode);
+        rootDiv.appendChild(layoutDiv);
+    }
+
+    return rootDiv;
 }
 
 $("#messageInput").summernote({

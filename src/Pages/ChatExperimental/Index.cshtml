@@ -6,9 +6,9 @@
 
 <h1>Chat</h1>
 
-<div class="container-fluid" style="height: 50rem">
+<div class="container-fluid" style="height: 30rem">
     <div class="row h-100 mr-0">
-        <div class="col-11 col-md-8 col-lg-7">
+        <div class="col-11 col-md-8">
             <div class="card h-100 shadow-sm">
                 <div class="card-header">
                     <p id="groupName"><strong>Chat Messages</strong></p>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="card-footer clearfix">
                     <div class="row">
-                        <div class="messageNoMargin col-8 col-sm-9 col-md-9 col-lg-10">
+                        <div class="message-no-margin col-8 col-sm-9 col-md-9 col-lg-10">
                             <textarea id="messageInput"></textarea>
                         </div>
                         <div class="col-4 col-sm-3 col-md-3 col-lg-2">
@@ -46,31 +46,18 @@
                 </div>
             </div>
         </div>        
-        <div class="row col-1 col-md-4 col-lg-5">
-            <div>
-                <button class="btn mx-0" 
-                        data-toggle="collapse" 
-                        data-target="#onlineUsersListSidebar" 
-                        aria-hidden="true" 
-                        aria-expanded="false" 
-                        aria-controls="sidebar"
-                        onclick="document.getElementById(this.getAttribute('data-target')).style.display = 'block';">
-                    <<
-                </button>
-            </div>
-            <div id="onlineUsersListSidebar" class="collapse">
-                <div class="card shadow-sm">
-                    <div class="card-header">
-                        <b>Online users</b>
+        <div id="onlineUsersListSidebar" class="col-1 col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header">
+                    <b>Online users</b>
+                </div>
+                <div id="onlineUsersList" class="card-body" style="overflow-y: scroll">
+                    @*
+                    <div class="mt-2">
+                        <img src="~/img/default_user_photo.jpg" class="rounded-circle" style="width: 30px; height: 30px" alt="Alternate Text" />
+                        <b class="ml-1">@User.Identity.Name</b>
                     </div>
-                    <div id="onlineUsersList" class="card-body" style="overflow-y: scroll">
-                        @*
-                        <div class="row">
-                            <img src="~/img/default_user_photo.jpg" class="rounded-circle" style="width: 30px; height: 30px" alt="Alternate Text" />
-                            <b class="ml-1">@User.Identity.Name</b>
-                        </div>
-                       *@
-                    </div>
+                    *@
                 </div>
             </div>       
         </div>

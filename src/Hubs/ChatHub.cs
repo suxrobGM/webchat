@@ -13,8 +13,6 @@ namespace WebChat.Hubs
         private readonly ApplicationDbContext _db;
         private readonly SingletonModel _model;
 
-        public int OnlineUsersCount { get => _model.OnlineUsers.Count; } 
-
         public ChatHub(ApplicationDbContext db)
         {
             _db = db;
@@ -23,21 +21,32 @@ namespace WebChat.Hubs
 
         public override Task OnConnectedAsync()
         {
-            string username = Context.User.Identity.Name;
+            var username = Context.User.Identity.Name;
             var onlineUser = _db.Users.Where(i => i.UserName == username).FirstOrDefault();
-            var userAvatar = onlineUser.ProfilePhoto.GetDataBase64();
-            _model.OnlineUsers.Add(onlineUser);
-            Clients.All.SendAsync("AddToOnlineList", onlineUser.UserName, userAvatar, OnlineUsersCount);
+            _model.OnlineUsers.Add(new OnlineUser(onlineUser.Id)
+            {
+                UserName = onlineUser.UserName,
+                Avatar = onlineUser.ProfilePhoto.GetDataBase64()
+            });
+
+            var onlineUsersJson = JsonConvert.SerializeObject(_model.OnlineUsers);
+            Clients.All.SendAsync("UpdateOnlineList", onlineUsersJson);
             
             return base.OnConnectedAsync();
         }
 
         public override Task OnDisconnectedAsync(Exception exception)
         {
-            string username = Context.User.Identity.Name;
+            var username = Context.User.Identity.Name;
             var disconnectingUser = _db.Users.Where(i => i.UserName == username).FirstOrDefault();
-            _model.OnlineUsers.Remove(disconnectingUser);
-            Clients.All.SendAsync("DeleteFromOnlineList", disconnectingUser.UserName, OnlineUsersCount);
+            _model.OnlineUsers.Remove(new OnlineUser(disconnectingUser.Id)
+            {
+                UserName = disconnectingUser.UserName,
+                Avatar = disconnectingUser.ProfilePhoto.GetDataBase64()
+            });
+
+            var onlineUsersJson = JsonConvert.SerializeObject(_model.OnlineUsers);
+            Clients.All.SendAsync("UpdateOnlineList", onlineUsersJson);
 
             return base.OnDisconnectedAsync(exception);
         }

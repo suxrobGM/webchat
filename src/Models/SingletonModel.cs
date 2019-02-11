@@ -19,11 +19,11 @@ namespace WebChat.Models
                 return _instance;
             }
         }
-        public HashSet<User> OnlineUsers { get; set; }
+        public HashSet<OnlineUser> OnlineUsers { get; set; }
 
         private SingletonModel()
         {
-            OnlineUsers = new HashSet<User>(new UserComparer());
+            OnlineUsers = new HashSet<OnlineUser>(new UserComparer());
         }       
     }
 }

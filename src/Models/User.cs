@@ -1,11 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Identity;
-
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace WebChat.Models
 {
-    public class User : IdentityUser<string>
+    public interface IUser
+    {
+        string GetUserId();
+    }
+
+    public class User : IdentityUser<string>, IUser
     {
         public User()
         {
@@ -14,19 +21,28 @@ namespace WebChat.Models
            
         public string ProfilePhotoId { get; set; }
         public DateTime? RegistrationDate { get; set; }
-        public virtual Media ProfilePhoto { get; set; }        
+        public virtual Media ProfilePhoto { get; set; }
+
+        public string GetUserId() => base.Id;
     }
 
-    public class UserComparer : IEqualityComparer<User>
+    public class UserComparer : IEqualityComparer<IUser>
     {
-        public bool Equals(User user1, User user2)
-        {
-            return user1.Id == user2.Id;
-        }
+        public bool Equals(IUser user1, IUser user2) => user1.GetUserId() == user2.GetUserId();
 
-        public int GetHashCode(User user)
-        {
-            return StringComparer.InvariantCultureIgnoreCase.GetHashCode(user.UserName);
-        }
+        public int GetHashCode(IUser user) => StringComparer.InvariantCultureIgnoreCase.GetHashCode(user.GetUserId());
+    }
+
+
+    public class OnlineUser : IUser
+    {
+        private readonly string _userId;
+
+        public string UserName { get; set; }
+        public string Avatar { get; set; }
+
+        public OnlineUser(string userId) => _userId = userId;
+
+        public string GetUserId() => _userId;
     }
 }
