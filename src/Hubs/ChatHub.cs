@@ -30,8 +30,8 @@ namespace WebChat.Hubs
             });
 
             var onlineUsersJson = JsonConvert.SerializeObject(_model.OnlineUsers);
-            Clients.All.SendAsync("UpdateOnlineList", onlineUsersJson);
-            
+            Clients.All.SendAsync("UpdateOnlineList", onlineUsersJson);           
+
             return base.OnConnectedAsync();
         }
 

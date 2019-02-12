@@ -4,35 +4,26 @@
     ViewData["Title"] = "Chat";
 }
 
-<h1>Chat</h1>
+<div class="row">
+    <div class="col-10">
+        <h1>Chat</h1>
+    </div>
+    <div class="display-only-mobile col-2 mt-4">
+        <button id="sidebarToggler" class="btn chat-sidebar-toggler"><<</button>
+    </div>
+</div>
 
-<div class="container-fluid" style="height: 30rem">
+<div class="chat-container">
     <div class="row h-100 mr-0">
-        <div class="col-11 col-md-8">
+        <div class="col-11 col-sm-7 col-md-8">
             <div class="card h-100 shadow-sm">
                 <div class="card-header">
                     <p id="groupName"><strong>Chat Messages</strong></p>
-                    <strong id="onlineUsersCount">Online users: </strong>                                       
+                    <strong id="onlineUsersCount">Online users: </strong>
                     <span hidden id="userName">@User.Identity.Name</span>
                 </div>
                 <div id="messagesList" class="card-body" style="overflow-y: scroll">
-                    @*<div class="row float-left w-100 mt-2">
-                        <div>
-                            <img src="~/img/default_user_photo.jpg" class="rounded-circle" alt="Alternate Text" style="width: 30px; height: 30px" />
-                        </div>                                           
-                        <div class="rounded mx-2 p-1" style="background-color: rgba(206, 212, 218, 0.75)">
-                            Message template 1 (left)
-                        </div>
-                    </div>
-                    <div class="row float-right w-100 mt-2">
-                        <div class="rounded ml-auto p-1" style="background-color: rgba(206, 212, 218, 0.75)">
-                            Message template 2 (right)
-                        </div>
-                        <div class="ml-2">
-                            <img src="~/img/default_user_photo.jpg" class="rounded-circle" alt="Alternate Text" style="width: 30px; height: 30px" />
-                        </div>                                       
-                    </div>
-                   *@
+
                 </div>
                 <div class="card-footer clearfix">
                     <div class="row">
@@ -45,21 +36,18 @@
                     </div>
                 </div>
             </div>
-        </div>        
-        <div id="onlineUsersListSidebar" class="col-1 col-md-4">
-            <div class="card shadow-sm h-100">
+        </div>
+        <div id="backgroundFade" class="display-only-mobile background-fade">
+        </div>
+        <div id="onlineUsersListSidebar" class="chat-sidebar-collapse col-6 col-sm-5 col-md-4 px-0">
+            <div class="card h-100">
                 <div class="card-header">
                     <b>Online users</b>
                 </div>
                 <div id="onlineUsersList" class="card-body" style="overflow-y: scroll">
-                    @*
-                    <div class="mt-2">
-                        <img src="~/img/default_user_photo.jpg" class="rounded-circle" style="width: 30px; height: 30px" alt="Alternate Text" />
-                        <b class="ml-1">@User.Identity.Name</b>
-                    </div>
-                    *@
+
                 </div>
-            </div>       
+            </div>
         </div>
     </div>
 </div>

@@ -9,7 +9,7 @@ $("#ajaxGet").click(() => {
         url: "/Chat?handler=List",
         contentType: "application/json",
         dataType: "json",
-        success: function (response) {
+        success: response => {
             var dvItems = $("#dvItems");
             dvItems.empty();
             $.each(response, function (i, item) {
@@ -28,8 +28,8 @@ function onSelectGroup(groupId)
         type: "GET",
         url: `/Chat?handler=Group&groupId=${groupId}`,        
         contentType: "application/json",
-        dataType: "json",
-        success: function (response) {
+        dataType: "json", 
+        success: response => {
             let group = JSON.parse(response);
             $("#groupName").text(group.Name);            
             

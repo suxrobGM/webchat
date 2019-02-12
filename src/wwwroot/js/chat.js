@@ -9,8 +9,8 @@ $("#chatRoom").click(() => {
     isConnectedToChatRoom = true;
 })
 
-$("#sendMessage").click(event => {
-    //if (!isConnectedToChatRoom) {
+$("#sendMessage").click(e => {
+    //if (!this.isConnectedToChatRoom) {
     //    return;
     //}
     
@@ -19,22 +19,20 @@ $("#sendMessage").click(event => {
     connection.invoke("SendMessage", message).catch(err => {
         return console.error(err.toString());
     });
-    event.preventDefault();
+    e.preventDefault();
 });
 
 connection.on("ReceiveMessage", (username, avatarPhoto, message) => {
-    let userNodes = $.parseHTML("<strong>" + username + "</strong>");
+    let userNodes = $.parseHTML("<p><b>" + username + "</b></p>");
     let messageNodes = $.parseHTML(message);
     let currentUser = $("#userName").text();
     let msgItem;
 
-    if (currentUser == username) {
-        // left item       
-        msgItem = createMessageElement(userNodes[0], avatarPhoto, messageNodes);
+    if (currentUser == username) {          
+        msgItem = createMessageElement(userNodes[0], avatarPhoto, messageNodes); // left item  
     }
     else {
-        // right item
-        msgItem = createMessageElement(userNodes[0], avatarPhoto, messageNodes, false);
+        msgItem = createMessageElement(userNodes[0], avatarPhoto, messageNodes, false); // right item
     }   
 
     let messagesList = document.getElementById("messagesList");
@@ -50,19 +48,13 @@ connection.on("UpdateOnlineList", onlineUsersJson => {
 });
 
 function createMessageElement(userNode, avatarPhotoText , messageNodes, isLeft = true) {
-    let msgItem = document.createElement('div');   
+    let msgLayout = document.createElement('div');
 
     let imgElement = document.createElement('img');
-    imgElement.setAttribute('src', avatarPhotoText);
-    imgElement.setAttribute('class', 'rounded-circle');
+    imgElement.setAttribute('src', avatarPhotoText);  
     imgElement.setAttribute('alt', 'avatar');
-    imgElement.setAttribute('style', 'width: 30px; height: 30px');
-
-    let imgDiv = document.createElement('div');
-    imgDiv.appendChild(imgElement);
 
     let msgDiv = document.createElement('div');   
-    msgDiv.setAttribute('style', 'background-color: rgba(206, 212, 218, 0.75)');
     msgDiv.appendChild(userNode);
 
     for (var i = 0; i < messageNodes.length; i++) {
@@ -70,21 +62,21 @@ function createMessageElement(userNode, avatarPhotoText , messageNodes, isLeft =
     }
 
     if (isLeft) {
-        imgDiv.setAttribute('class', '');
-        msgDiv.setAttribute('class', 'message-no-margin rounded mx-2 p-1');
-        msgItem.setAttribute('class', 'row float-left w-100 mt-2');
-        msgItem.appendChild(imgDiv);
-        msgItem.appendChild(msgDiv);
+        imgElement.setAttribute('class', 'message-avatar rounded-circle');
+        msgDiv.setAttribute('class', 'message-item message-no-margin rounded p-1 mx-2');
+        msgLayout.setAttribute('class', 'row float-left w-100 mt-2');
+        msgLayout.appendChild(imgElement);
+        msgLayout.appendChild(msgDiv);
     }
     else {
-        imgDiv.setAttribute('class', 'ml-2');
-        msgDiv.setAttribute('class', 'message-no-margin rounded ml-auto p-1');
-        msgItem.setAttribute('class', 'row float-right w-100 mt-2');
-        msgItem.appendChild(msgDiv);
-        msgItem.appendChild(imgDiv);        
+        imgElement.setAttribute('class', 'message-avatar rounded-circle ml-2');
+        msgDiv.setAttribute('class', 'message-item message-no-margin rounded p-1 ml-auto');
+        msgLayout.setAttribute('class', 'row float-right w-100 mt-2');
+        msgLayout.appendChild(msgDiv);
+        msgLayout.appendChild(imgElement);        
     }
 
-    return msgItem;
+    return msgLayout;
 }
 
 function createOnlineUserItems(onlineUsers) {
@@ -133,3 +125,18 @@ $("#messageInput").summernote({
         ]
     }
 })
+
+$("#sidebarToggler").click(() => {
+    let sidebarShowed = $("#onlineUsersListSidebar").hasClass("chat-sidebar-show");
+
+    if (!sidebarShowed) {
+        $("#onlineUsersListSidebar").addClass("chat-sidebar-show");
+        $("#backgroundFade").addClass("background-fade-show");
+        $("#sidebarToggler").text(">>");
+    }
+    else {
+        $("#onlineUsersListSidebar").removeClass("chat-sidebar-show");
+        $("#backgroundFade").removeClass("background-fade-show");
+        $("#sidebarToggler").text("<<");
+    }
+});
