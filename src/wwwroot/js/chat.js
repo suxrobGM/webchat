@@ -1,4 +1,4 @@
-﻿var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+﻿var connection = new signalR.HubConnectionBuilder().withUrl("/generalChatHub").build();
 var isConnectedToChatRoom = false;
 
 connection.start().catch(err => {

@@ -8,12 +8,12 @@ using Newtonsoft.Json;
 
 namespace WebChat.Hubs
 {
-    public class ChatHub : Hub
+    public class GeneralChatHub : Hub
     {
         private readonly ApplicationDbContext _db;
         private readonly SingletonModel _model;
 
-        public ChatHub(ApplicationDbContext db)
+        public GeneralChatHub(ApplicationDbContext db)
         {
             _db = db;
             _model = SingletonModel.Instance;
