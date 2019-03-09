@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebChat.Models
+namespace WebChat.Utils
 {
     public static class GeneratorId
     {

@@ -3,8 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebChat.Models;
 using Newtonsoft.Json;
+using WebChat.Models;
+using WebChat.Data;
 
 namespace WebChat.Hubs
 {

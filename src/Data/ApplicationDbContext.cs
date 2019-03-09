@@ -4,8 +4,9 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using WebChat.Models;
 
-namespace WebChat.Models
+namespace WebChat.Data
 {
     public class ApplicationDbContext : IdentityDbContext<User, UserRole, string>
     {

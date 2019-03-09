@@ -9,8 +9,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using WebChat.Models;
 using ImageMagick;
+using WebChat.Models;
+using WebChat.Data;
 
 namespace WebChat.Areas.Identity.Pages.Account.Manage
 {
